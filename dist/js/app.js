@@ -12,6 +12,34 @@ function agaveAuth(username, password, tenant_name){
         //Fetch the Session/Tenant data from AGAVE for the user
         $.ajax
         ({
+          type: "POST",
+          url: "https://agaveauth.its.hawaii.edu/clients/v2",
+          dataType: 'json',
+          async: true,
+          headers: {
+            "Authorization": "Basic " + btoa(username + ":" + password)
+          },
+          data: { clientName: tenant_name, description: "some description", tier:"UNLIMITED", callbackUrl: null },
+          success: function (data){
+            getAgaveAccessToken(data.result.consumerKey, data.result.consumerSecret, username)     
+            $('#authModal').modal('hide');
+          },
+          error: agaveAuthClient(username, password, tenant_name);
+
+        });
+        
+    //}
+    //else{
+    //    alert("user already logged in!")
+    //}
+    return
+}
+
+function agaveAuthClient(username, password, tenant_name){
+  //if (getAccessTokenCookie("token") == 0){
+        //Fetch the Session/Tenant data from AGAVE for the user
+        $.ajax
+        ({
           type: "GET",
           url: "https://agaveauth.its.hawaii.edu/clients/v2",
           dataType: 'json',
@@ -23,15 +51,12 @@ function agaveAuth(username, password, tenant_name){
           success: function (data){
             getAgaveAccessToken(data.result.consumerKey, data.result.consumerSecret, username)     
             $('#authModal').modal('hide');
-          }
+          },
+
         });
-        
-    //}
-    //else{
-    //    alert("user already logged in!")
-    //}
-    return
+
 }
+
 function checkUserAuthed(){
   if (getAccessTokenCookie() == "")
      {//user is not logged in redirect to login page
