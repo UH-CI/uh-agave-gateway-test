@@ -12,7 +12,7 @@ function agaveAuth(username, password, tenant_name){
         //Fetch the Session/Tenant data from AGAVE for the user
         $.ajax
         ({
-          type: "POST",
+          type: "GET",
           url: "https://agaveauth.its.hawaii.edu/clients/v2",
           dataType: 'json',
           async: true,
