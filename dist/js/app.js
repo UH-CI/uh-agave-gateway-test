@@ -24,7 +24,7 @@ function agaveAuth(username, password, tenant_name){
             getAgaveAccessToken(data.result.consumerKey, data.result.consumerSecret, username)     
             $('#authModal').modal('hide');
           },
-          error: agaveAuthClient(username, password, tenant_name);
+          error: agaveAuthClient(username, password, tenant_name)
 
         });
         
